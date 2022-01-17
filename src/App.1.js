@@ -32,11 +32,11 @@ function App() {
 	/*
 		7. 조건부 렌더링 START
 	*/
-
-
+	
 	function UserGreeting(props){
 		return <h1>Wekcome back!</h1>;
 	}
+
 	function GuestGreeting(props){
 		return <h1>Please sign up</h1>;
 	}
@@ -156,10 +156,13 @@ function App() {
 		
 		- 리스트의 각 항목 속성에 key를 넣어야 하며 생략할 경우 경고문이 뜬다. 
 		  key는 react에서 어떤 항목을 변경, 추가 또는 삭제할지 식별하는 것을 돕는데 이 때 key 속성에 고유한 값을 부여하여 지정해야한다.
-	      만약 고유한 값이 없다면 최후의 수단으로 해당 항목의 index를 key로 사용할 수 있다.
+		  만약 고유한 값이 없다면 최후의 수단으로 해당 항목의 index를 key로 사용할 수 있다.
+		  key는 배열 안에서 형제 사이에서 고유해야 하고 전체 범위에서 고유할 필요는 없다.
+		  key 속성은 클라이언트에 노출되지 않는다.
+
 	*/ 
 
-	const number = [1,2,3,4,5]
+	const number = [1,2,3,4,5];
 	function ListItem(props){
 		return <li>{props.value}</li>
 	}
@@ -176,10 +179,47 @@ function App() {
 		);
 	}
 
+	const posts = [
+		{id: 1, title: 'Hello World', content: 'Welcome to learning React!'},
+ 	 	{id: 2, title: 'Installation', content: 'You can install React from npm.'}
+	]
+
+	function Blog(props){
+		const sidebar = (
+			<ul>
+				{props.posts.map((post) => 
+					<li key={post.id}>
+						{post.title}
+					</li>
+				)}
+			</ul>
+		);
+		
+		const content = props.posts.map((post) => 
+			<div key = {post.id} id = {post.id}>
+				<h3>
+					{post.title}
+				</h3>
+				<p>
+					{post.content}
+				</p>
+			</div>
+		);
+		
+		return (
+			<div>
+				{sidebar}
+				<hr />
+				{content}
+			</div>
+		)
+	}
+
+
+
 	/*
 		8. 리스트와 Key END
 	*/
-
 
 	return (
 		<div className="App1">
@@ -192,7 +232,8 @@ function App() {
 			<Toggle />
 			<LoginControl />
 			<Page />
-			<NumberList numbers={number}/>
+			<NumberList numbers={number} />
+			<Blog posts={posts}/>
 		</div>
 	);
 }
