@@ -20,7 +20,7 @@ body {
 .App1{
   width:49.7%;
   height: auto;
-  display:inline-block;
+  display:inline-table;
 }
 
 code {
