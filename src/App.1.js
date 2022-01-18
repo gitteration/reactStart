@@ -221,21 +221,47 @@ function App() {
 	/*
 		9. 폼 START
 	*/
+
+	// 제어 컴포넌트
+	// - state를 관리하고 업데이트를 하며 setState()에 의해 업데이트 된다.
 	class NameForm extends React.Component {
 		constructor(props){
 			super(props);
-			this.state = {value : ''};
-			this.handleChange = this.handleChange.bind(this);
+			this.state = {
+				input_value : '',
+				textarea_value : '',
+				select_value : 'coconut',
+			};
+			this.handleInputChange = this.handleInputChange.bind(this);
+			this.handleTextAreaChange = this.handleTextAreaChange.bind(this);
+			this.handleSelectChange = this.handleSelectChange.bind(this);
 			this.handleSubmit = this.handleSubmit.bind(this);
 		}
 
-		handleChange(event){
+		handleInputChange(event){
 			this.setState({
-				value : event.target.value
+				input_value : event.target.value
 			});
 		}
+		handleTextAreaChange(event){
+			this.setState({
+				textarea_value : event.target.value
+			})
+		}
+		
+		handleSelectChange(event){
+			this.setState({
+				select_value : event.target.value
+			})
+		}
 		handleSubmit(event){
-			alert('A name was submitted : ' + this.state.value);
+			alert(
+				`
+					A name was submitted :  ${this.state.input_value}         
+					A n essay was submitted : ${this.state.textarea_value}
+					Your Select favorite flavor is : ${this.state.select_value}
+				`
+			);
 			event.preventDefault();
 		}
 
@@ -243,16 +269,29 @@ function App() {
 			return (
 				<form onSubmit={this.handleSubmit}>
 					<label>
-						name:
-						<input type="text" value={this.state.value} onChange={this.handleChange}/>
+						name :
+						<input type="text" value={this.state.input_value} onChange={this.handleInputChange}/>
+						<br /><br />
+						essay :
+						<textarea value={this.state.textarea_value} onChange={this.handleTextAreaChange}/>
+						<br /><br />
+						<select value={this.state.select_value} onChange={this.handleSelectChange}>
+							<option value="grapefruit">Grapefruit</option>
+							<option value="lime">Lime</option>
+							<option value="coconut">Coconut</option>
+							<option value="mango">Mango</option>
+						</select>
+
 					</label>
+					<br /><br />
+					<p text="안녕하세요. ddd" >안녕하세요. 손님</p>
 					<input type="submit" value="Submit"/>
 				</form>
 			)
 		};
 	}
 
-
+	
 
 
 
