@@ -298,29 +298,85 @@ function App() {
 	 * 10. State 끌어올리기 START
 	 * - 동일한 데이터에 대한 변경사항을 여러 컴포넌트에 반영해야 할 필요가 있는데 이 때 공통 조상으로 state를 끌어올려 반영하는 방법을 알아보겠다.
 	 */
+	const scaleNames = {
+		c: 'Celsius',
+		f: 'Fahrenheit'
+	}
+	class TemperatureInput extends React.Component{
+		constructor(props){
+			super(props);
+			this.handleChange = this.handleChange.bind(this);
+		}
+
+		handleChange(event){
+			this.props.onTemperatureChange(event.target.value);
+		}
+		
+		render(){
+			const temperature = this.props.temperature;
+			const scale = this.props.scale;
+			return (
+				<fieldset>
+					<legend>
+						Enter temperature in {scaleNames[scale]} : 
+					</legend>
+					<input value={temperature} onChange={this.handleChange}/>
+				</fieldset>
+			)
+		}
+	}
+
 	function BoilingVerdict(props){
 		if(props.celsius >= 100){
 			return <p>The water would boil.</p>;
 		}
 		return <p>The water would not boil</p>;
 	}
+	function toCelsius(fahrenheit){
+		return (fahrenheit - 32) * 5 / 9;	
+	}
+	function toFahrenheit(celsius){
+		return (celsius * 9 / 5) + 32;
+	}
+	function tryConvert(temperature, convert){
+		const input = parseFloat(temperature);
+		if(Number.isNaN(input)){
+			return '';
+		}
+		const output = convert(input);
+		const rounded = Math.round(output * 1000) / 1000;
+		return rounded.toString();
+	}
 
 	class Calculator extends React.Component{
 		constructor(props){
 			super(props);
-			this.state = {temperature : ''};
+			this.state = {temperature : '', scale:'c'};
 			this.handleChange = this.handleChange.bind(this); 
+			this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+			this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
 		}
 		handleChange(event){
-			this.setState({temperature : event.target.value})
+			this.setState({temperature : event.target.value});
+		}
+		handleCelsiusChange(temperature){
+			this.setState({scale:'c',temperature});
+		}
+		handleFahrenheitChange(temperature){
+			this.setState({scale:'f',temperature});
 		}
 		render(){
 			const temperature = this.state.temperature;
+			const scale = this.state.scale;
+			const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
+			const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
 			return (
 				<fieldset>
 					<legend>Enter temperature in Celsius:</legend>
 					<input value={temperature} onChange={this.handleChange}/>
 					<BoilingVerdict celsius={parseFloat(temperature)} />
+					<TemperatureInput temperature={celsius} onTemperatureChange={this.handleCelsiusChange} scale="c"/>
+					<TemperatureInput temperature={fahrenheit} onTemperatureChange={this.handleFahrenheitChange} scale="f"/>
 				</fieldset>
 			)
 		}
