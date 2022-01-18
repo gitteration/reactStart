@@ -220,10 +220,9 @@ function App() {
 
 	/*
 		9. 폼 START
+		- 여기서 form, input, textarea, select 태그를 어떻게 사용하는지 알아보겠다.
+	
 	*/
-
-	// 제어 컴포넌트
-	// - state를 관리하고 업데이트를 하며 setState()에 의해 업데이트 된다.
 	class NameForm extends React.Component {
 		constructor(props){
 			super(props);
@@ -255,12 +254,14 @@ function App() {
 			})
 		}
 		handleSubmit(event){
+			const contents = 
+			`
+				A name was submitted :  ${this.state.input_value}         
+				A n essay was submitted : ${this.state.textarea_value}
+				Your Select favorite flavor is : ${this.state.select_value}
+			`
 			alert(
-				`
-					A name was submitted :  ${this.state.input_value}         
-					A n essay was submitted : ${this.state.textarea_value}
-					Your Select favorite flavor is : ${this.state.select_value}
-				`
+				contents	
 			);
 			event.preventDefault();
 		}
@@ -284,7 +285,6 @@ function App() {
 
 					</label>
 					<br /><br />
-					<p text="안녕하세요. ddd" >안녕하세요. 손님</p>
 					<input type="submit" value="Submit"/>
 				</form>
 			)
@@ -294,7 +294,44 @@ function App() {
 		9. 폼 END
 	*/
 
+	/** / 
+	 * 10. State 끌어올리기 START
+	 * - 동일한 데이터에 대한 변경사항을 여러 컴포넌트에 반영해야 할 필요가 있는데 이 때 공통 조상으로 state를 끌어올려 반영하는 방법을 알아보겠다.
+	 */
+	function BoilingVerdict(props){
+		if(props.celsius >= 100){
+			return <p>The water would boil.</p>;
+		}
+		return <p>The water would not boil</p>;
+	}
 
+	class Calculator extends React.Component{
+		constructor(props){
+			super(props);
+			this.state = {temperature : ''};
+			this.handleChange = this.handleChange.bind(this); 
+		}
+		handleChange(event){
+			this.setState({temperature : event.target.value})
+		}
+		render(){
+			const temperature = this.state.temperature;
+			return (
+				<fieldset>
+					<legend>Enter temperature in Celsius:</legend>
+					<input value={temperature} onChange={this.handleChange}/>
+					<BoilingVerdict celsius={parseFloat(temperature)} />
+				</fieldset>
+			)
+		}
+	}
+
+
+
+
+	/**
+	 * 10. State 끌어올리기 END
+	 */
 
 	return (
 		<div className="App1">
@@ -310,6 +347,7 @@ function App() {
 			<NumberList numbers={number} />
 			<Blog posts={posts}/>
 			<NameForm />
+			<Calculator />
 		</div>
 	);
 }
