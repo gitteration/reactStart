@@ -444,11 +444,59 @@ function App() {
 		)
 	}
 
-	 
 	/**
 	 * 11. 합성 vs 상속 END
 	 */
 	
+	/**
+	 * 12. React로 생각하기 START
+	 */
+ 
+	function Chapter12(){
+		return (
+			<div>
+				<h1>12. React로 생각하기</h1>
+				<ul>
+					<strong>1단계: UI를 컴포넌트 계층 구조로 나누기</strong>
+					<li>
+						react는 보통 JSON 타입으로 디자인을 목업 한다(목업 : 디자인의 검토를 위해 실물과 비슷하게 제작하는 실물 모형).
+					</li>
+					<li>
+						단일 책임 원칙 - 하나의 컴포넌트는 한 가지 일을 하는게 이상적이라는 원칙이다. 하나의 컴포넌트가 커지면 작은 하위 컴포넌트를 분리해야 한다는 의미인거 같다.
+					</li>
+				</ul>
+				<img src='/img/chapter12_img1.png'/>
+				<p>
+					1.FilterableProductTable(노란색): 예시 전체를 포괄합니다.<br/>
+					2.SearchBar(파란색): 모든 유저의 입력(user input) 을 받습니다.<br/>
+					3.ProductTable(연두색): 유저의 입력(user input)을 기반으로 데이터 콜렉션(data collection)을 필터링 해서 보여줍니다.<br/>
+					4.ProductCategoryRow(하늘색): 각 카테고리(category)의 헤더를 보여줍니다.<br/>
+					5.ProductRow(빨강색): 각각의 제품(product)에 해당하는 행을 보여줍니다.<br/>
+					3.ProductTable에서 데이터 컬렉션이 렌더링의 일부이며 헤더가 복잡해진다면 별도의 컴포넌트를 만들어 나누는게 더 합리적이라고 한다.
+				</p>
+				<br/>
+				<br/>
+				<strong>2단계: React로 정적인 버전 만들기</strong>
+				<p>
+					정적으로 만드는 것은 생각을 적게 타이핑은 많이 필요로 하니깐 함 노가다 뛰어보라는거 같다.<br/>
+					그러면 나중에 반대로 동적으로 만드는 것을 필요로 할 것 이니(물론 무조건은 아니다. 간단한 홈페이지는 오히려 정적으로 간단히 만드는게 더 효율적일 것 이다.)<br/>
+					근데 정적으로 만들 때에는 state를 사용하지 말라고 한다.<br/>
+					이유는 state는 오직 상호작용을 위해 동적으로 만들기 위해서 이니<br/>
+					<br/>
+					앱을 만들 때 하양식 또는 상향식이 있다고 한다.<br/>
+					하양식은 5.ProductRow 만드는 것을 의미하고 상향식은 반대로 1.FilterableProductTable 부터 만드는 것을 의미한다.<br/>
+					리액트는 단방향 바인딩을 사용한다.<br/>
+				</p>
+			</div>
+		)
+	}
+
+
+
+	/**
+	 * 12. React로 생각하기 END
+	 */
+
 	return (
 		<div className="App1">
 			<header className="App-header">
@@ -465,6 +513,7 @@ function App() {
 			<NameForm />
 			<Calculator />
 			<WelcomeDialog />
+			<Chapter12 />
 		</div>
 	);
 }
