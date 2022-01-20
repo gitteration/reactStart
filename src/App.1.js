@@ -393,13 +393,62 @@ function App() {
 		}
 	}
 
-
-
-
 	/**
 	 * 10. State 끌어올리기 END
 	 */
 
+	/**
+	 * 11. 합성 vs 상속 START
+	 * - react는 상속 대신 합성을 사용하여 컴포넌트 간에 코드를 재사용 하는게 좋다고 한다.
+	 * - 그러니깐 상속 대신에 함수, 객체, 클래스 등으로 import 하여 사용하는게 React에서는 권장한다는 소리인 것 같다.
+	 */
+	function FancyBorder(props){		
+		return (
+			<div className={'FancyBorder FancyBorder-' + props.color}>
+				<div>
+					{props.children}
+				</div>
+				<div>
+					{props.left}
+				</div>
+				<div>
+					{props.right}
+				</div>
+			</div>
+		)
+	}
+	function Left(){
+		return (
+			<div>
+				left 함수에서 출력!
+			</div>
+		)
+	}
+	function Right(){
+		return (
+			<div>
+				right 함수에서 출력 !
+			</div>
+		)
+	}
+	function WelcomeDialog(){
+		return (
+			<FancyBorder color="blue" left={<Left />} right={<Right />}>
+				<h1>
+					WelcomeDialog 함수에서 FancyBorder 함수를 호출하여  자식태그를 전달 할 수 있다!
+				</h1>
+				<p className="Dialog-message">
+					대신 FancyBorder 함수에는 {'{props.children}'} 구문을 추가해야 함
+				</p>
+			</FancyBorder>
+		)
+	}
+
+	 
+	/**
+	 * 11. 합성 vs 상속 END
+	 */
+	
 	return (
 		<div className="App1">
 			<header className="App-header">
@@ -415,6 +464,7 @@ function App() {
 			<Blog posts={posts}/>
 			<NameForm />
 			<Calculator />
+			<WelcomeDialog />
 		</div>
 	);
 }
