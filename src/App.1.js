@@ -504,12 +504,10 @@ function App() {
 					</li>
 				</ul>
 				<strong>4단계: State가 어디에 있어야 할 지 찾기</strong>
-				
+
 			</div>
 		)
 	}
-
-
 
 	/**
 	 * 12. React로 생각하기 END
